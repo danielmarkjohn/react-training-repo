@@ -1,31 +1,33 @@
 import './App.css';
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { apiURL } from './constants';
+import DataTable from './components/DataTable';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 function AppChild(props) {
-  // useState
-  const [btnName, setBtnName] = useState('Click Here');
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-// triggering useEffect = btnName
-useEffect(() => {
-    console.log(props);
-}, [])
+  useEffect(() => {
+    axios.get(apiURL)
+      .then(response => {
+        setData(response.data); // Store Response in Data
+        setTimeout(() => {
+          setLoading(false);
+        }, 3000);
+      })
+  }, [])
 
-const handleClick = () => {
-  alert("Button has been clicked");
-};
-
-const handleInput = (e) => {
-  setBtnName(e.target.value);
-  console.log("Input Text", e.target.value);
- }
 
   return (
     <div className="App">
       <header className="App-header">
-        <input onChange={handleInput}/><br/>
-        <button className="btn-primary" onClick={handleClick}>{btnName}</button>
-        <button className="btn-primary" >{props.btnName}</button>
-
+        {loading ?
+          (<Box sx={{ display: 'flex' }}>
+            <CircularProgress />
+          </Box>) : (<DataTable data={data} />)}
       </header>
     </div>
   );

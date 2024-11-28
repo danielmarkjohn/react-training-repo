@@ -42,3 +42,11 @@
   color: white;
   padding: 5px;
 }
+
+.data-table-class {
+  padding: 10px;
+  height: 300px;
+  width: 70%;
+  margin: 10px;
+  border: darkblue solid 2px;
+}
